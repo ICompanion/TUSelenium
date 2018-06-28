@@ -40,11 +40,11 @@ public class Scenarios {
     public void firstTest(){
         System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        driver.get("http://www.google.com/xhtml");
+        Functions functions = new Functions(driver, "http://www.google.com/",5000);
+        functions.init();
           // Let the user actually see something!
-        WebElement searchBox = driver.findElement(By.name("q"));
-        searchBox.sendKeys("ChromeDriver");
-        searchBox.submit();// Let the user actually see something!
+        functions.type(By.name("q"),"Test of type");
+
         driver.quit();
     }
 
