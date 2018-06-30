@@ -11,12 +11,15 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import org.junit.jupiter.api.Assertions;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Short description of the class
@@ -46,12 +49,24 @@ public class Functions {
 
     public void type(By locator, String inputText) {
         WebElement element = driver.findElement(locator);
+        element.clear();
         element.sendKeys(inputText);
     }
+
+    public void assertText(By locator, String textExpected) {
+        WebElement element = driver.findElement(locator);
+        Assertions.assertEquals(textExpected,element.getText());
+    }
+
+    public void implicitWait(int timeInMs) throws InterruptedException {
+        Thread.sleep(timeInMs);
+    };
 
     public void refresh(){
         getDriver().navigate().refresh();
     }
+
+    public void quit() { getDriver().quit(); }
 
     public String getBaseUrl() {
         return baseUrl;
