@@ -44,7 +44,8 @@ public class Functions {
 
     public void click(By locator) {
         WebElement element = driver.findElement(locator);
-        element.click();
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
     }
 
     public void type(By locator, String inputText) {
@@ -58,9 +59,19 @@ public class Functions {
         Assertions.assertEquals(textExpected,element.getText());
     }
 
+    public void assertContains(By locator, String textToContains) {
+        WebElement element = driver.findElement(locator);
+        Assertions.assertTrue(StringUtils.contains(element.getText(), textToContains));
+    }
+
     public void implicitWait(int timeInMs) throws InterruptedException {
         Thread.sleep(timeInMs);
     };
+
+    public void isDisplayed(By locator) {
+        WebElement element = driver.findElement(locator);
+        Assertions.assertTrue(element.isDisplayed());
+    }
 
     public void refresh(){
         getDriver().navigate().refresh();
