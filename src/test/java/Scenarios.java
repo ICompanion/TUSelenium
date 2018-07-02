@@ -68,6 +68,7 @@ public class Scenarios {
             functions.assertText(By.id("welcome"), "Welcome M. Delaye");
         } catch (Exception e) {
             System.out.println(e);
+            functions.quit();
         }
     }
 
@@ -102,9 +103,73 @@ public class Scenarios {
         }
     }
 
+    @Test
+    public void studies() throws Exception {
+        try {
+            functions.refresh();
+            functions.click(By.id("studies"));
+            functions.implicitWait(2500);
+            functions.assertText(By.id("listtype"),"Liste de vos études :");
+            functions.assertText(By.xpath("//button[@id='45KSTRZ']/following::i"),"Not Completed");
+            functions.click(By.id("45KSTRZ"));
+            functions.implicitWait(2000);
+            functions.assertText(By.id("details"),"Nom : Etudes du paracetamol\nDescription : Etudes sur les effets du paracetamol durant les 2 premières semaines de traitement");
+
+            //Test with missing checkbox
+            functions.click(By.xpath("//div[@id='question1']/descendant::input[1]"));
+            functions.click(By.xpath("//div[@id='question3']/descendant::input[1]"));
+            functions.click(By.xpath("//div[@id='question4']/descendant::input"));
+            functions.click(By.id("confirm"));
+            functions.click(By.id("submitform"));
+            functions.assertText(By.id("errormsg"),"Please answer to every questions.");
+
+            //Test without checkbox
+            functions.click(By.xpath("//div[@id='question2']/descendant::input[1]"));
+            functions.click(By.id("confirm"));
+            functions.click(By.id("submitform"));
+            functions.assertAlertCheckbox("Veuillez cocher la checkbox afin de soumettre votre autorisation");
+
+            //Good test
+            functions.click(By.id("confirm"));
+            functions.click(By.id("submitform"));
+            functions.assertAlertCheckbox("Formulaire envoyé. Vous allez maintenant être redirigé vers la page d'accueil.");
+            functions.implicitWait(1500);
+            functions.assertText(By.id("welcome"), "Welcome M. Delaye");
+
+            functions.click(By.id("studies"));
+            functions.implicitWait(2500);
+            functions.assertText(By.id("listtype"),"Liste de vos études :");
+            functions.assertText(By.xpath("//button[@id='45KSTRZ']/following::i"),"Completed");
+
+
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
     @AfterAll
-    public static void stop() {
-        functions.quit();
+    public static void disconnectTest() throws Exception {
+        try {
+            functions.refresh();
+            functions.click(By.id("disconnect"));
+            functions.implicitWait(1500);
+            functions.assertText(By.id("confirmmsg"),"Are you sure?");
+            functions.click(By.id("no"));
+            functions.implicitWait(1500);
+            functions.assertText(By.id("welcome"), "Welcome M. Delaye");
+            functions.click(By.id("disconnect"));
+            functions.implicitWait(1500);
+            functions.assertText(By.id("confirmmsg"),"Are you sure?");
+            functions.click(By.id("yes"));
+            functions.isDisplayed(By.id("loginsubmit"));
+
+            functions.quit();
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 
 }
+
+
+

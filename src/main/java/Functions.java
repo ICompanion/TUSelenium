@@ -73,6 +73,12 @@ public class Functions {
         Assertions.assertTrue(element.isDisplayed());
     }
 
+    public void assertAlertCheckbox(String textToAssert) {
+        Alert alert = driver.switchTo().alert();
+        Assertions.assertEquals(alert.getText(),textToAssert);
+        alert.accept();
+    }
+
     public void refresh(){
         getDriver().navigate().refresh();
     }
